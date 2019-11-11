@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main role="main">
+
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-4">Добро пожаловать в Магазинчик</h1>
+    </div>
+  </div>
+
+
+  <div class="container mb-5">
+    <!-- Example row of columns -->
+    <div class="row">
+      {% for article in articles_list %}
+      <div class="col-md-6">
+        <h2>{{ article.title }}</h2>
+        <br><a>{{ article.text }}</a>
+          <div class="row">
+            <br>{% for product in article.product.all %}
+            <div class="col-md-4">
+              {{ product.name }}
+              <br><a href={{ product.short_name }}>
+                <img src="{{ product.img.url }}" width="180"></a>
+              <form>
+                <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
+              </form>
+            </div>
+            {% endfor %}
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div> <!-- /container -->
+
+  <!--<div class="jumbotron">-->
+    <!--<div class="container">-->
+      <!--<h1 class="display-4">Не знаете что одеть летом?</h1>-->
+      <!--<p>Вот что мы можем предложить:</p>-->
+    <!--</div>-->
+  <!--</div>-->
+
+
+  <!--<div class="container mb-5">-->
+    <!--&lt;!&ndash; Example row of columns &ndash;&gt;-->
+    <!--<div class="row">-->
+
+      <!--<div class="col-md-4">-->
+        <!--<h2>Фуфайка</h2>-->
+
+        <!--<a href="./phone.html">-->
+
+          <!--<img src="./static/fufajka.jpg" width="180">-->
+
+        <!--</a>-->
+
+        <!--<form>-->
+          <!--<input type="submit" class="btn btn-secondary" value="Добавить в корзину »">-->
+        <!--</form>-->
+      <!--</div>-->
+
+    <!--</div>-->
+  <!--</div> &lt;!&ndash; /container &ndash;&gt;-->
+
+</main>
+{% endblock %}

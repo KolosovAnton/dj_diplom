@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<main role="main">
+
+  <div class="container">
+    <!-- Example row of columns -->
+    <h2>{{ item.title }}</h2>
+
+    <div class="row">
+      {% for categories in categories_list %}
+      <li>{{ categories }}</li>
+<!--        <a class="button button-primary" href="{% url 'short_name' categories.short_name %}">{{ categories }}</a>-->
+      {% endfor %}
+
+    </div> <!-- /container -->
+
+  </div>
+</main>
+
+{% endblock %}

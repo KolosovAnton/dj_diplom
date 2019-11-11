@@ -1,0 +1,80 @@
+<!DOCTYPE html>{% load static %}
+<html lang="en" >
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Graduation Work</title>
+  <link rel="stylesheet" href="./static/bootstrap.min.css">
+  <link rel="stylesheet" href="./static/main.css">
+</head>
+<body class="" data-gr-c-s-loaded="true">
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">Магазинчик</a>
+  <img src="./static/logo.svg" alt="" width="42" height="42">
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+          aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      {% for catalog in catalog_list %}
+        {% for categories in categories_list %}
+          {% if catalog == categories.catalog %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ catalog }}</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                  <a class="dropdown-item" href={{ categories.short_name }}>
+                    {{ categories }}</a>
+                </div>
+            </li>
+          {% else %}
+            {% if catalog.title == "Главная" %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}">
+                  {{ catalog }}</a>
+              </li>
+            {% else %}
+              <li class="nav-item active">
+                <a class="nav-link" href={{ catalog.short_name }}>
+                  {{ catalog }}</a>
+              </li>
+            {% endif %}
+          {% endif %}
+        {% endfor%}
+      {% endfor%}
+    </ul>
+
+    <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+       href="./cart.html">
+      Корзина</a>
+
+
+    <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+       href="./login.html">
+      Войти</a>
+
+  </div>
+</nav>
+<body>
+  {% block content %}
+  {% endblock %}
+
+  <!--JavaScript at end of body for optimized loading-->
+  <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
+</body>
+<hr>
+<footer class="container">
+  <p>© Магазинчик 2019</p>
+</footer>
+
+<script src="./static/jquery-3.3.1.slim.min.js"></script>
+<script src="./static/popper.min.js"></script>
+<script src="./static/bootstrap.min.js"></script>
+</body>
+</html>
