@@ -12,19 +12,11 @@
         <h2>{{ item.name }}</h2><br>
           <a><img src="{{ MEDIA_URL }}{{ item.img.url }}" width="180" class="preview"></a>
         <p>{{ item.body }}</p>
-
         <ul>
           {% for review in reviews %}
             <li><p>{{review.name}}: {{review.text}}</p></li>
           {% endfor %}
         </ul>
-
-        <form action="{% url 'short_name' item.short_name %}" method="POST">
-          {% csrf_token %}
-          {{ form }}
-          <br>
-          <input type="submit" value="Отправить отзыв"/>
-        </form>
 
         <form method="post" action="./cart/">
           <input type="hidden" name="csrfmiddlewaretoken"
@@ -36,13 +28,16 @@
     </div>
     <hr>
 
-
-
     <hr>
-
     <div class="row">
       <div class="col-lg-6 col-md-8 col-sm-12">
         <h4>Оставте отзыв:</h4>
+        <form action="" method="POST">
+          {% csrf_token %}
+          {{ form }}
+          <br>
+          <input type="submit" value="Отправить отзыв"/>
+        </form>
 
         <form action="./merch/1/feedback" method="post">
           <input type="hidden" name="csrfmiddlewaretoken"
@@ -69,27 +64,6 @@
             <input class="form-check-input" type="radio" name="mark" id="mark2" value="2">
             <label class="form-check-label" for="mark2">
               2
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="mark" id="mark3" value="3">
-            <label class="form-check-label" for="mark3">
-              3
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="mark" id="mark4" value="4">
-            <label class="form-check-label" for="mark4">
-              4
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="mark" id="mark5" value="5">
-            <label class="form-check-label" for="mark5">
-              5
             </label>
           </div>
 

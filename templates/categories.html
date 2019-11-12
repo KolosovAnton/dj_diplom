@@ -15,8 +15,8 @@
 
       <div class="col-md-4">
         <h2>{{ product.name }}</h2>
-          <br><a href={{ product.short_name }}>
-                <img src="{{ product.img.url }}" width="180"></a>
+          <br><a href="{% url 'short_name' product.short_name %}">
+                <img src="{{ MEDIA_URL }}{{ product.img.url }}" width="180"></a>
               <form>
                 <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
               </form>

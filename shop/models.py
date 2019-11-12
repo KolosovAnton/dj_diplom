@@ -33,7 +33,7 @@ class Categories(models.Model):
 # товары
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    img = models.ImageField(upload_to='static')
+    img = models.ImageField(upload_to='media')
     body = models.TextField()
     short_name = models.CharField(max_length=15, unique=True)
     categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
@@ -52,7 +52,6 @@ class Article(models.Model):
     text = models.TextField()
     published_at = models.DateTimeField()
     product = models.ManyToManyField(Product, related_name='articles')
-    categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-published_at']

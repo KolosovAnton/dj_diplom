@@ -22,31 +22,31 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       {% for catalog in catalog_list %}
-        {% for categories in categories_list %}
-          {% if catalog == categories.catalog %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ catalog }}</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                  <a class="dropdown-item" href={{ categories.short_name }}>
+        {% if catalog.categories_set.all %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ catalog }}</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              {% for categories in catalog.categories_set.all %}
+                  <a class="dropdown-item" href="{% url 'short_name' categories.short_name %}">
                     {{ categories }}</a>
-                </div>
+              {% endfor %}
+            </div>
+          </li>
+        {% else %}
+          {% if catalog.title == "Главная" %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home' %}">
+                {{ catalog }}</a>
             </li>
           {% else %}
-            {% if catalog.title == "Главная" %}
-              <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">
-                  {{ catalog }}</a>
-              </li>
-            {% else %}
-              <li class="nav-item active">
-                <a class="nav-link" href={{ catalog.short_name }}>
-                  {{ catalog }}</a>
-              </li>
-            {% endif %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'short_name' catalog.short_name %}">
+                {{ catalog }}</a>
+            </li>
           {% endif %}
-        {% endfor%}
+        {% endif %}
       {% endfor%}
     </ul>
 

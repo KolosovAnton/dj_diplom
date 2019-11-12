@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator
 from urllib.parse import urlencode
@@ -54,41 +55,52 @@ def show_page(request, short_name):
 
     for item in categories:
         if short_name == item.short_name:
-            template = 'categories.html'
-            context['item'] = item
-            product_list = []
+            categories_list = []
             for product_item in product:
-                if product_item.categories == item:
-                    product_list.append(product_item)
-            count = 3
-            page_num = int(request.GET.get('page', 1))
-            paginator = Paginator(product_list, count)
-            page = paginator.get_page(page_num)
-            data = page.object_list
-            prev_page = urlencode({'page': page_num - 1})
-            if page.has_previous():
-                prev_page_url = reverse('short_name', args=[item.short_name]) + f'?{prev_page}'
+                categories_list.append(product_item.categories)
+            if item in categories_list:
+                template = 'categories.html'
+                context['item'] = item
+                product_list = []
+                for product_item in product:
+                    if product_item.categories == item:
+                        product_list.append(product_item)
+                count = 3
+                page_num = int(request.GET.get('page', 1))
+                paginator = Paginator(product_list, count)
+                page = paginator.get_page(page_num)
+                data = page.object_list
+                prev_page = urlencode({'page': page_num - 1})
+                if page.has_previous():
+                    prev_page_url = reverse('short_name', args=[item.short_name]) + '?{}'.format(prev_page)
+                else:
+                    prev_page_url = None
+                next_page = urlencode({'page': page_num + 1})
+                if page.has_next():
+                    next_page_url = reverse('short_name', args=[item.short_name]) + '?{}'.format(next_page)
+                else:
+                    next_page_url = None
+                context['products'] = data
+                context['current_page'] = page_num
+                context['prev_page_url'] = prev_page_url
+                context['next_page_url'] = next_page_url
             else:
-                prev_page_url = None
-            next_page = urlencode({'page': page_num + 1})
-            if page.has_next():
-                next_page_url = reverse('short_name', args=[item.short_name]) + f'?{next_page}'
-            else:
-                next_page_url = None
-            context['products'] = data
-            context['current_page'] = page_num
-            context['prev_page_url'] = prev_page_url
-            context['next_page_url'] = next_page_url
+                template = 'empty_section.html'
 
     for item in product:
         if short_name == item.short_name:
             template = 'phone.html'
             context['item'] = item
+            if request.method == 'POST':
+                form = ReviewForm(request.POST)
+                if form.is_valid():
+                    review = form.save(commit=False)
+                    review.product_id = item.id
+                    review.save()
+                    return HttpResponseRedirect(reverse('short_name', args=[item.short_name]))
+            else:
+                form = ReviewForm()
             context['reviews'] = Review.objects.filter(product=item)
-            context['form'] = ReviewForm
-            form = ReviewForm(request.POST)
-            # if form.is_valid():
-            #     review = form.save(commit=False)
-            #     review.save()
+            context['form'] = form
 
     return render(request, template, context)
