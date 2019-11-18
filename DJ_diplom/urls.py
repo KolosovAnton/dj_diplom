@@ -19,11 +19,13 @@ from django.contrib import admin
 from django.urls import path
 
 from DJ_diplom import settings
-from shop.views import home_view, show_page
+from shop.views import home_view, show_page, UserRegisterView, UserLoginView, user_logout
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
+    path('signup/', UserRegisterView.as_view(), name='signup'),
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('logout/', user_logout, name='logout'),
     path('', home_view, name='home'),
     url(r'^(?P<short_name>[\w-]+)/$', show_page, name='short_name'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
