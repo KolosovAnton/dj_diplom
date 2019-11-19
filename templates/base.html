@@ -53,12 +53,12 @@
           </li>
         {% else %}
           {% if catalog.title == "Главная" %}
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'home' %}">
                 {{ catalog }}</a>
             </li>
           {% else %}
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'short_name' catalog.short_name %}">
                 {{ catalog }}</a>
             </li>
@@ -67,10 +67,15 @@
       {% endfor%}
     </ul>
 
-    <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-       href="./cart.html">
-      Корзина</a>
-
+    {% if user.is_authenticated %}
+      <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+         href="./cart.html">
+        Корзина</a>
+    {% else %}
+      <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+         href="{% url 'login' %}">
+        Корзина</a>
+    {% endif %}
 
     {% if user.is_authenticated %}
       <p style="color:Green">{{ user }}</p>

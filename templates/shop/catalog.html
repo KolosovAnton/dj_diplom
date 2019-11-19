@@ -13,11 +13,13 @@
       {% for product in product_list %}
         <div class="col-md-4">
           <h2>{{ product.name }}</h2>
-            <br><a href="{% url 'short_name' product.short_name %}">
-                  <img src="{{ MEDIA_URL }}{{ product.img.url }}" width="180"></a>
-                <form>
-                  <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
-                </form>
+          <br><a href="{% url 'short_name' product.short_name %}">
+          <img src="{{ MEDIA_URL }}{{ product.img.url }}" width="180"></a>
+          {% if user.is_authenticated %}
+            <input type="button" onclick="location.href='./cart.html';" value="Добавить в корзину »"/>
+          {% else %}
+            <input type="button" onclick="location.href='{% url 'login' %}';" value="Добавить в корзину »"/>
+          {% endif %}
         </div>
       {% endfor %}
     </div> <!-- /container -->

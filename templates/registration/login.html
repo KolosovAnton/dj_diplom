@@ -17,7 +17,7 @@
             <input type="hidden" name="next" value="{{ next }}" />
             <input type="submit" value="Войти">
             </form>
+        <input type="button" onclick="location.href='{% url 'signup' %}';" value="Зарегистрировать нового пользователя"/>
     </div>
-    <input type="button" onclick="location.href='{% url 'signup' %}';" value="Зарегистрировать нового пользователя" />
 
 {% endblock %}

@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 
 # пункты меню
@@ -75,15 +74,3 @@ class Review(models.Model):
 
     def __str__(self):
         return str(self.product.name) + ' ' + self.text[:50]
-
-
-# пользователи
-class Users(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
-
-    def __str__(self):
-        return '{}'.format(self.user)

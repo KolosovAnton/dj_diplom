@@ -19,13 +19,15 @@
         <br><a>{{ article.text }}</a>
           <div class="row">
             <br>{% for product in article.product.all %}
-            <div class="col-md-4">
-              {{ product.name }}
+            <div class="col-md-6">
+              <br>{{ product.name }}
               <br><a href="{% url 'short_name' product.short_name %}">
                 <img src="{{ product.img.url }}" width="180"></a>
-              <form>
-                <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
-              </form>
+              {% if user.is_authenticated %}
+                <input type="button" onclick="location.href='./cart.html';" value="Добавить в корзину »"/>
+              {% else %}
+                  <input type="button" onclick="location.href='{% url 'login' %}';" value="Добавить в корзину »"/>
+              {% endif %}
             </div>
             {% endfor %}
           </div>
@@ -40,20 +42,23 @@
     </div>
   </div>
 
-  <div class="carousel">
-    {% for product in products_list %}
-      <a href="{% url 'short_name' product.short_name %}">
-        <h3>{{ product.name }}</h3><br>
-        <img src="{{ MEDIA_URL }}{{ product.img.url }}" width="180" class="preview">
-        <form>
-          <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
-        </form>
-      </a>
-    {% endfor %}
+  <div class="container">
+    <div class="carousel">
+      {% for product in products_list %}
+        <a href="{% url 'short_name' product.short_name %}">
+          <h3>{{ product.name }}</h3><br>
+          <img src="{{ MEDIA_URL }}{{ product.img.url }}"
+               width="180" class="preview"></a>
+<!--          {% if user.is_authenticated %}-->
+<!--            <input type="button" onclick="location.href='./cart.html';"-->
+<!--                   value="Добавить в корзину »"/>-->
+<!--          {% else %}-->
+<!--            <input type="button" onclick="location.href='{% url 'login' %}';"-->
+<!--                   value="Добавить в корзину »"/>-->
+<!--          {% endif %}-->
+      {% endfor %}
+    </div>
   </div>
-
-
-
 
 </main>
 {% endblock %}

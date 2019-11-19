@@ -17,13 +17,11 @@
             <li><p>{{review.name}}: {{review.text}}</p></li>
           {% endfor %}
         </ul>
-
-        <form method="post" action="./cart/">
-          <input type="hidden" name="csrfmiddlewaretoken"
-                 value="N4vcBqzjoYkU7OTDuAT8hq8srpvYX44nJsswuP7e3EYg0Hq8DgxuR0eiXWbSr5RZ">
-          <input type="hidden" name="merchandise_id" value="1">
-          <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
-        </form>
+        {% if user.is_authenticated %}
+          <input type="button" onclick="location.href='./cart.html';" value="Добавить в корзину »"/>
+        {% else %}
+          <input type="button" onclick="location.href='{% url 'login' %}';" value="Добавить в корзину »"/>
+        {% endif %}
       </div>
     </div>
     <hr>
@@ -42,7 +40,6 @@
     </div>
 
   </div> <!-- /container -->
-
 
 </main>
 

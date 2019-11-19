@@ -1,14 +1,5 @@
 from django.contrib import admin
-from shop.models import Categories, Product, Catalog, Article, Review, Users
-
-
-class UserInLine(admin.ModelAdmin):
-    model = Users
-    can_delete = False
-    # list_display = ('title', 'number',)
-    # list_filter = ('number', 'title',)
-    # search_fields = ('number', 'title',)
-    # ordering = ('number',)
+from shop.models import Categories, Product, Catalog, Article, Review
 
 
 class CatalogAdmin(admin.ModelAdmin):
@@ -43,7 +34,6 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'text')
 
 
-admin.site.register(Users, UserInLine)
 admin.site.register(Catalog, CatalogAdmin)
 admin.site.register(Categories, CategoriesAdmin)
 admin.site.register(Product, ProductAdmin)
