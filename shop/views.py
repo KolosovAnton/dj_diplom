@@ -39,18 +39,11 @@ class UserRegisterView(CreateView):
 def home_view(request):
     template = 'index.html'
     context = {}
-    article = Article.objects.order_by('-published_at')
-    context['articles_list'] = article
-
-    catalog = Catalog.objects.order_by('number')
-    context['catalog_list'] = catalog
-
-    categories = Categories.objects.order_by('title').prefetch_related('catalog')
-    context['categories_list'] = categories
-
-    product = Product.objects.order_by('name').prefetch_related('categories')
-    context['products_list'] = product
-
+    context['articles_list'] = Article.objects.order_by('-published_at')
+    context['catalog_list'] = Catalog.objects.order_by('number')
+    context['categories_list'] = Categories.objects.order_by('title').prefetch_related('catalog')
+    context['products_list'] = Product.objects.order_by('name').prefetch_related('categories')
+    context['name'] = 'home'
     return render(request, template, context)
 
 
@@ -69,8 +62,8 @@ def show_page(request, short_name):
     for item in context['catalog_list']:
         if short_name == item.short_name:
             context['item'] = item
+            context['name'] = item.title
             if not item.categories_set.all():
-                print(item.product_set.all())
                 if item.product_set.all():
                     template = 'shop/catalog.html'
                     context['product_list'] = item.product_set.all()
@@ -79,6 +72,7 @@ def show_page(request, short_name):
 
     for item in context['categories_list']:
         if short_name == item.short_name:
+            context['name'] = item.catalog.title
             if item.product_set.all():
                 template = 'shop/categories.html'
                 context['item'] = item
@@ -89,12 +83,12 @@ def show_page(request, short_name):
                 data = page.object_list
                 prev_page = urlencode({'page': page_num - 1})
                 if page.has_previous():
-                    prev_page_url = reverse('short_name', args=[item.short_name]) + '?{}'.format(prev_page)
+                    prev_page_url = reverse('short_name', args=[item.short_name]) + f'?{prev_page}'
                 else:
                     prev_page_url = None
                 next_page = urlencode({'page': page_num + 1})
                 if page.has_next():
-                    next_page_url = reverse('short_name', args=[item.short_name]) + '?{}'.format(next_page)
+                    next_page_url = reverse('short_name', args=[item.short_name]) + f'?{next_page}'
                 else:
                     next_page_url = None
                 context['products'] = data
@@ -106,6 +100,10 @@ def show_page(request, short_name):
 
     for item in context['products_list']:
         if short_name == item.short_name:
+            if item.catalog:
+                context['name'] = item.catalog.title
+            else:
+                context['name'] = item.categories.catalog.title
             template = 'shop/phone.html'
             context['item'] = item
             if request.method == 'POST':

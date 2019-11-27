@@ -19,10 +19,13 @@ from django.contrib import admin
 from django.urls import path
 
 from DJ_diplom import settings
+from cart.views import cart_add, cart_detail
 from shop.views import home_view, show_page, UserRegisterView, UserLoginView, user_logout
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
+    url(r'^cart/add/(?P<product_id>\d+)/$', cart_add, name='cart_add'),
+    url(r'^cart/', cart_detail, name='cart_detail'),
     path('signup/', UserRegisterView.as_view(), name='signup'),
     path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', user_logout, name='logout'),

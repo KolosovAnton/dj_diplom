@@ -18,7 +18,10 @@
           {% endfor %}
         </ul>
         {% if user.is_authenticated %}
-          <input type="button" onclick="location.href='./cart.html';" value="Добавить в корзину »"/>
+          <form action="{% url 'cart_add' item.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Добавить в корзину »"/>
+          </form>
         {% else %}
           <input type="button" onclick="location.href='{% url 'login' %}';" value="Добавить в корзину »"/>
         {% endif %}

@@ -24,9 +24,12 @@
               <br><a href="{% url 'short_name' product.short_name %}">
                 <img src="{{ product.img.url }}" width="180"></a>
               {% if user.is_authenticated %}
-                <input type="button" onclick="location.href='./cart.html';" value="Добавить в корзину »"/>
+                <form action="{% url 'cart_add' product.id %}" method="POST">
+                  {% csrf_token %}
+                  <input type="submit" value="Добавить в корзину »"/>
+                </form>
               {% else %}
-                  <input type="button" onclick="location.href='{% url 'login' %}';" value="Добавить в корзину »"/>
+                <input type="button" onclick="location.href='{% url 'login' %}';" value="Добавить в корзину »"/>
               {% endif %}
             </div>
             {% endfor %}
@@ -48,14 +51,17 @@
         <a href="{% url 'short_name' product.short_name %}">
           <h3>{{ product.name }}</h3><br>
           <img src="{{ MEDIA_URL }}{{ product.img.url }}"
-               width="180" class="preview"></a>
+               width="180" class="preview">
 <!--          {% if user.is_authenticated %}-->
-<!--            <input type="button" onclick="location.href='./cart.html';"-->
-<!--                   value="Добавить в корзину »"/>-->
+<!--            <form action="{% url 'cart_add' product.id %}" method="POST">-->
+<!--              {% csrf_token %}-->
+<!--              <input type="submit" value="Добавить в корзину »"/>-->
+<!--            </form>-->
 <!--          {% else %}-->
 <!--            <input type="button" onclick="location.href='{% url 'login' %}';"-->
 <!--                   value="Добавить в корзину »"/>-->
 <!--          {% endif %}-->
+        </a>
       {% endfor %}
     </div>
   </div>
